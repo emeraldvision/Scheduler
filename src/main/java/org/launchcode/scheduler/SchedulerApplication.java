@@ -1,4 +1,4 @@
-package com.emeraldvision.scheduler;
+package org.launchcode.scheduler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

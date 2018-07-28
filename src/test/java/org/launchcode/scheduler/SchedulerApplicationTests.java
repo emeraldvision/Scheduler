@@ -1,4 +1,4 @@
-package com.emeraldvision.scheduler;
+package org.launchcode.scheduler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
