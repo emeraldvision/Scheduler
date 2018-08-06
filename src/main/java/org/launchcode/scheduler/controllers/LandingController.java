@@ -10,14 +10,17 @@ public class LandingController {
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("title", "Scheduler App | Home");
+        model.addAttribute("header", "Scheduler");
+        model.addAttribute("title", "Home | Scheduler App");
         return "index";
     }
 
-    @RequestMapping(value = "add")
+    @RequestMapping(value = "add-task")
     public String addTask(Model model) {
 
-        model.addAttribute("title", "Add Task");
+        String header = "Add Task";
+        model.addAttribute("header", header);
+        model.addAttribute("title", header + " | Scheduler App");
         return "add-task";
     }
 
