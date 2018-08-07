@@ -1,7 +1,8 @@
 package org.launchcode.scheduler.controllers;
 
 import org.launchcode.scheduler.models.Task;
-import org.launchcode.scheduler.models.TaskData;
+import org.launchcode.scheduler.models.data.TaskDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,10 +16,13 @@ import javax.validation.Valid;
 @Controller
 public class LandingController {
 
+    @Autowired
+    private TaskDao taskDao;
+
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("tasks", TaskData.getTasks());
+        model.addAttribute("tasks", taskDao.findAll());
         model.addAttribute("header", "Scheduler");
         model.addAttribute("title", "Home | Scheduler App");
         return "index";
@@ -44,14 +48,14 @@ public class LandingController {
             return "add-task";
         }
 
-        TaskData.add(newTask);
+        taskDao.save(newTask);
         return "redirect:";
     }
 
     @RequestMapping(value = "remove-task", method = RequestMethod.GET)
     public String displayRemoveTaskForm(Model model) {
 
-        model.addAttribute("tasks", TaskData.getTasks());
+        model.addAttribute("tasks", taskDao.findAll());
         String header = "Remove Tasks";
         model.addAttribute("header", header);
         model.addAttribute("title", header + " | Scheduler App");
@@ -61,7 +65,7 @@ public class LandingController {
     @RequestMapping(value = "remove-task", method = RequestMethod.POST)
     public String processRemoveTaskForm(@RequestParam int[] taskIds) {
         for (int taskId : taskIds) {
-            TaskData.remove(taskId);
+            taskDao.delete(taskId);
         }
         return "redirect:";
     }

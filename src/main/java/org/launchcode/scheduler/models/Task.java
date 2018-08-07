@@ -1,14 +1,20 @@
 package org.launchcode.scheduler.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Entity
 public class Task {
 
-    private int taskId;
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
-    @Size(min = 3, max = 25, message = "Please enter a name")
+    @Size(min = 1, message = "Please enter a name")
     private String name;
 
     @NotNull
@@ -23,10 +29,8 @@ public class Task {
     // blank description becomes empty String
     private String description;
 
-    private static int nextId = 1;
 
     public Task(String name, String startTime, String endTime, String description) {
-        this();
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -34,12 +38,10 @@ public class Task {
     }
 
     public Task() {
-        taskId = nextId;
-        nextId++;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
