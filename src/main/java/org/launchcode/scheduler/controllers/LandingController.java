@@ -1,23 +1,21 @@
 package org.launchcode.scheduler.controllers;
 
 import org.launchcode.scheduler.models.Task;
+import org.launchcode.scheduler.models.TaskData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-
 @Controller
 public class LandingController {
-
-    static ArrayList<Task> tasks = new ArrayList<>();
 
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("tasks", TaskData.getTasks());
         model.addAttribute("header", "Scheduler");
         model.addAttribute("title", "Home | Scheduler App");
         return "index";
@@ -33,10 +31,27 @@ public class LandingController {
     }
 
     @RequestMapping(value = "add-task", method = RequestMethod.POST)
-    public String processAddTaskForm(Model model, @RequestParam String taskName, @RequestParam String startTime, @RequestParam String endTime, @RequestParam String description) {
+    public String processAddTaskForm(@ModelAttribute Task newTask) {
 
-        Task newTask = new Task(taskName, startTime, endTime, description);
-        tasks.add(newTask);
+        TaskData.add(newTask);
+        return "redirect:";
+    }
+
+    @RequestMapping(value = "remove-task", method = RequestMethod.GET)
+    public String displayRemoveTaskForm(Model model) {
+
+        model.addAttribute("tasks", TaskData.getTasks());
+        String header = "Remove Tasks";
+        model.addAttribute("header", header);
+        model.addAttribute("title", header + " | Scheduler App");
+        return "remove-task";
+    }
+
+    @RequestMapping(value = "remove-task", method = RequestMethod.POST)
+    public String processRemoveTaskForm(@RequestParam int[] taskIds) {
+        for (int taskId : taskIds) {
+            TaskData.remove(taskId);
+        }
         return "redirect:";
     }
 
