@@ -5,5 +5,26 @@
 <body>
     <nav th:replace="fragments :: navigation"></nav>
     <h1 th:replace="fragments :: header"></h1>
+
+    <h2 th:text="${#dates.format(#dates.createNow(), 'MMMM d, yyyy')}"></h2>
+    <p th:unless="${tasks} and ${tasks.size()}">no tasks yet</p>
+
+    <table>
+
+        <tr>
+            <th>Start</th>
+            <th>End</th>
+            <th>Task</th>
+            <th>Description</th>
+        </tr>
+
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.startTime}"></td>
+            <td th:text="${task.endTime}"></td>
+            <td th:text="${task.name}"></td>
+            <td th:text="${task.description}"></td>
+        </tr>
+
+    </table>
 </body>
 </html>
