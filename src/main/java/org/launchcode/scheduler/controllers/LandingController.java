@@ -4,10 +4,13 @@ import org.launchcode.scheduler.models.Task;
 import org.launchcode.scheduler.models.TaskData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @Controller
 public class LandingController {
@@ -27,11 +30,19 @@ public class LandingController {
         String header = "Add Task";
         model.addAttribute("header", header);
         model.addAttribute("title", header + " | Scheduler App");
+        model.addAttribute(new Task());
         return "add-task";
     }
 
     @RequestMapping(value = "add-task", method = RequestMethod.POST)
-    public String processAddTaskForm(@ModelAttribute Task newTask) {
+    public String processAddTaskForm(Model model, @ModelAttribute @Valid Task newTask, Errors errors) {
+
+        if (errors.hasErrors()) {
+            String header = "Add Task";
+            model.addAttribute("header", header);
+            model.addAttribute("title", header + " | Scheduler App");
+            return "add-task";
+        }
 
         TaskData.add(newTask);
         return "redirect:";

@@ -1,11 +1,26 @@
 package org.launchcode.scheduler.models;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Task {
 
     private int taskId;
+
+    @NotNull
+    @Size(min = 3, max = 25, message = "Please enter a name")
     private String name;
+
+    @NotNull
+    @Size(min = 1, message = "Please enter a start time")
     private String startTime;
+
+    @NotNull
+    @Size(min = 1, message = "Please enter an ending time")
     private String endTime;
+
+    @NotNull
+    // blank description becomes empty String
     private String description;
 
     private static int nextId = 1;

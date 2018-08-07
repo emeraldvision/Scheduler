@@ -6,13 +6,27 @@
     <nav th:replace="fragments :: navigation"></nav>
     <h1 th:replace="fragments :: header"></h1>
 
-    <form method="post">
-        Name:
-        <input type="text" name="name" /><br/>
-        Start: <input type="text" name="startTime" /><br/>
-        End: <input type="text" name="endTime" /><br/>
-        Description:
-        <input type="text" name="description" /><br/>
+    <form method="post" th:object="${task}">
+        <div>
+            <label th:for="name">Name</label>
+            <input th:field="*{name}" />
+            <span th:errors="*{name}"></span>
+        </div>
+        <div>
+            <label th:for="startTime">Start</label>
+            <input th:field="*{startTime}" />
+            <span th:errors="*{startTime}"></span>
+        </div>
+        <div>
+            <label th:for="endTime">End</label>
+            <input th:field="*{endTime}" />
+            <span th:errors="*{endTime}"></span>
+        </div>
+        <div>
+            <label th:for="description">Description</label>
+            <input th:field="*{description}" />
+            <span th:errors="*{description}"></span>
+        </div>
         <input type="submit" value="Add task" />
     </form>
 
